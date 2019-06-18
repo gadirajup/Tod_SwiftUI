@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView : View {
-    var items: [String] = [
+    @State var items: [String] = [
         "Go to the gym",
         "Get a haircut",
         "Edit the Battry on the sketch file",
@@ -17,15 +17,20 @@ struct ContentView : View {
     ]
     
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(items.identified(by: \.self)) { item in
-                    NavigationButton(destination: ItemDetailView(item: item)) {
-                        ItemView(item: item, color: Color.blue, markedDone: false)
+        ZStack {
+            NavigationView {
+                List {
+                    ForEach(items.identified(by: \.self)) { item in
+                        NavigationButton(destination: ItemDetailView(item: item)) {
+                            ItemView(item: item, color: Color.blue, markedDone: false)
+                        }
                     }
-                }
+                    }
+                    .navigationBarTitle(Text("Tod"))
+                    .navigationBarItems(trailing: Image(systemName: "plus").font(.title).tapAction {
+                        self.items.append("This is a new item")
+                    })
             }
-            .navigationBarTitle(Text("Tod"))
         }
     }
 }
@@ -34,6 +39,8 @@ struct ContentView : View {
 struct ContentView_Previews : PreviewProvider {
     static var previews: some View {
         ContentView()
+            .previewDevice("iPhone SE")
+            .previewDevice("iPhone X")
     }
 }
 #endif
